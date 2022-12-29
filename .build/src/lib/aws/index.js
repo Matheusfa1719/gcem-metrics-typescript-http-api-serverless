@@ -14,9 +14,5 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(require("./hash"), exports);
-__exportStar(require("./defautErrorResponse"), exports);
-__exportStar(require("./requestValidator"), exports);
-__exportStar(require("./parseClassValidatorResponse"), exports);
-__exportStar(require("./aws"), exports);
+__exportStar(require("./dynamoDB"), exports);
 //# sourceMappingURL=index.js.map

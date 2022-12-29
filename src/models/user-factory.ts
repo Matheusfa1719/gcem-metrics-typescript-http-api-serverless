@@ -15,7 +15,7 @@ export class UserFactoryService {
 
   dynamoCreateNewUser(user: User): AWS.DynamoDB.AttributeMap {
     return {
-        id: { S: v4() },
+        userId: { S: v4() as string },
         firstName: { S: user.firstName },
         lastName: { S: user.lastName },
         email: { S: user.email },
@@ -23,5 +23,16 @@ export class UserFactoryService {
         role: { S: user.role },
         createdAt: { S: new Date().toISOString() },
     };
+  }
+
+  createdUserResponse(id: string | undefined, user: User, createdAt: string | undefined ) {
+    return {
+      userId: id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      role: user.role,
+      createdAt: createdAt
+    }
   }
 }

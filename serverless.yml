@@ -71,4 +71,3 @@ resources:
 plugins:
   - serverless-plugin-typescript
   - serverless-offline
-  - serverless-log-forwarding

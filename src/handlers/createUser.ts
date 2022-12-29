@@ -4,19 +4,26 @@ import { User } from "../core/entities";
 import { defaultErrorResponse, validateReqBody } from "../lib";
 import { getRequestBody } from "../lib/getRequestBody";
 import { ErrorFactoryService, UserFactoryService } from "../models";
-import { validationCreateUserDto } from "../usecases";
+import { UserUseCases, validationCreateUserDto } from "../usecases";
 
+const userFactoryService = new UserFactoryService();
+const errorFactoryService =  new ErrorFactoryService();
+const userUseCases = new UserUseCases(userFactoryService, errorFactoryService);
 
 
 export const handler: APIGatewayProxyHandler = async (event) => {
     try {
         const body = getRequestBody(event);
         await validationCreateUserDto(body);
+        const createdUser = await userUseCases.createUser(body);
+        console.log(createdUser);
         return {
             statusCode: 201,
             body: JSON.stringify(
                 {
-                    message: "Hello World"
+                    success: true,
+                    statusCode: 201,
+                    data: createdUser
                 }
             )
         }
