@@ -1,0 +1,74 @@
+org: matheus1719
+app: gcem-metrics-typescript-http-api
+service: gcem-metrics-typescript-http-api
+frameworkVersion: '3'
+
+custom:
+  serverless-log-forwarding:
+    streams:
+      - destinationArn: 'arn:aws:logs:us-east-1:240649272047:log-group:api-gcem-metrics:*'
+        filterPattern: '{$.errorType="*"}'
+        sourceArn: 'arn:aws:logs:us-east-1:240649272047:log-group:/aws/lambda/gcem-metrics-typescript-http-api:*'
+  userTableName: 'cg-users-table-${sls:stage}'
+  
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - Fn::GetAtt: [ UsersTable, Arn ]
+  environment:
+    USERS_TABLE: ${self:custom.userTableName}
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - httpApi:
+          path: /
+          method: get
+  createUser:
+    handler: src/handlers/createUser.handler
+    events:
+      - httpApi:
+          path: /users
+          method: post
+
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: email
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: email-index
+            KeySchema:
+              - AttributeName: email
+                KeyType: HASH
+            Projection:
+              ProjectionType: 'ALL'
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.userTableName}
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+  - serverless-log-forwarding

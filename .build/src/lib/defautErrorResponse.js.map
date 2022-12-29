@@ -1,0 +1,1 @@
+{"version":3,"file":"defautErrorResponse.js","sourceRoot":"","sources":["../../../src/lib/defautErrorResponse.ts"],"names":[],"mappings":";;;AAEA,SAAgB,oBAAoB,CAAC,KAAU;IAC7C,OAAO;QACL,UAAU,EAAE,KAAK,CAAC,UAAU,IAAI,GAAG;QACnC,IAAI,EAAE,IAAI,CAAC,SAAS,CAAC;YACnB,OAAO,EAAE,KAAK,CAAC,OAAO,IAAI,cAAc;SACzC,CAAC;KACH,CAAC;AACJ,CAAC;AAPD,oDAOC"}
