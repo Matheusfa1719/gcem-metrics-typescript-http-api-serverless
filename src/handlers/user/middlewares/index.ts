@@ -2,6 +2,8 @@ import { APIGatewayProxyEvent } from "aws-lambda";
 import { validate } from "class-validator";
 import { getRequestBody } from "../../../lib/http/getRequestBody";
 import { CreateUserDto, LoginDto } from "../dtos";
+import * as userData from "../data";
+import { createNewError } from "../../../lib";
 
 export const createUserBodyValidation = async (event: APIGatewayProxyEvent) => {
     const body = getRequestBody(event);
@@ -36,4 +38,10 @@ export const createLoginBodyValidation = async (event: APIGatewayProxyEvent) => 
       }),
     };
   }
+}
+
+export const getUserInfo = async (userId: string) => {
+  const user = await userData.findUserById(userId);
+  if (!user) throw createNewError(404, 'Usuário não encontrado')
+  return user;
 }

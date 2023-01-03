@@ -1,3 +1,4 @@
+import { DynamoDB } from 'aws-sdk';
 import { v4 } from 'uuid';
 import { CreateUserDto } from "../dtos"
 
@@ -22,4 +23,15 @@ export const createdUserResponse = (id: string | undefined, createUserDto: Creat
         role: createUserDto.role,
         createdAt: createdAt
       }
+}
+
+export const userResponse = (response: DynamoDB.AttributeMap) => {
+  return {
+    userId: response.userId.S,
+    firstName: response.firstName.S,
+    lastName: response.lastName.S,
+    email: response.email.S,
+    role: response.role.S,
+    createdAt: response.createdAt.S
+  }
 }

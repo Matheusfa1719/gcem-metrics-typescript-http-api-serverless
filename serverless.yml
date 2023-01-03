@@ -39,6 +39,12 @@ functions:
       - httpApi:
           path: /users
           method: post
+  findUserById:
+    handler: src/handlers/user/findUserById.handler
+    events:
+      - httpApi:
+          path: /users/{userId}
+          method: get
   login:
     handler: src/handlers/user/login.handler
     events:

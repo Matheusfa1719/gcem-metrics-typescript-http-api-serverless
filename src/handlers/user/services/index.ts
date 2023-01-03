@@ -5,6 +5,16 @@ import { CreateUserDto, LoginDto } from "../dtos"
 import { comparePassword, createNewError, hashPassword } from "../../../lib";
 import { getConfigs } from '../../../config';
 
+export const findUserById = async (userId: string) => {
+  try {
+    const user = await userData.findUserById(userId);
+    if (!user) throw createNewError(404, 'Usuário não localizado');
+    return userFactory.userResponse(user);
+  } catch (err) {
+    throw (err);
+  }
+}
+
 export const createUser = async (createUserDto: CreateUserDto) => {
   try {
     const userAlreadyExist = await userData.checkUserExist(createUserDto.email);

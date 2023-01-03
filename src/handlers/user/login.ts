@@ -13,7 +13,7 @@ export const handler: APIGatewayProxyHandler = async (event) => {
       statusCode: 200,
       body: JSON.stringify({
         success: true,
-        statusCode: 201,
+        statusCode: 200,
         data: {
             access_token: token
         }
