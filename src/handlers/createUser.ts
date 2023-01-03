@@ -2,7 +2,7 @@ import { APIGatewayProxyHandler } from "aws-lambda";
 import { validate, ValidationError } from "class-validator";
 import { User } from "../core/entities";
 import { defaultErrorResponse, validateReqBody } from "../lib";
-import { getRequestBody } from "../lib/getRequestBody";
+import { getRequestBody } from "../lib/http/getRequestBody";
 import { ErrorFactoryService, UserFactoryService } from "../models";
 import { UserUseCases, validationCreateUserDto } from "../usecases";
 
@@ -16,7 +16,6 @@ export const handler: APIGatewayProxyHandler = async (event) => {
         const body = getRequestBody(event);
         await validationCreateUserDto(body);
         const createdUser = await userUseCases.createUser(body);
-        console.log(createdUser);
         return {
             statusCode: 201,
             body: JSON.stringify(

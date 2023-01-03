@@ -17,3 +17,16 @@ export const putItem = async (tableName: string, item: AWS.DynamoDB.AttributeMap
     throw errorFactoryService.createNewError(500, 'Server Error');
   }
 }
+
+export const findUserByEmail = async (tableName: string, email: string) => {
+  const params: AWS.DynamoDB.Types.QueryInput = {
+    TableName: tableName,
+    IndexName: 'email-index',
+    KeyConditionExpression: 'email = :val',
+    ExpressionAttributeValues: {
+      ':val': { S: email }
+    }
+  }
+  const { Items } = await dynamoDB.query(params).promise();
+  return Items && Items.length > 0 ? true : false
+}
