@@ -40,10 +40,10 @@ functions:
           path: /users
           method: post
   login:
-    handler: src/handlers/auth/login.handler
+    handler: src/handlers/user/login.handler
     events:
       - httpApi:
-          path: /auth/login
+          path: /user/auth/login
           method: post
 
 resources:

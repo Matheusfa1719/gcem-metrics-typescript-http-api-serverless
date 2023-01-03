@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent } from "aws-lambda";
 import { validate } from "class-validator";
 import { getRequestBody } from "../../../lib/http/getRequestBody";
-import { CreateUserDto } from "../dtos";
+import { CreateUserDto, LoginDto } from "../dtos";
 
 export const createUserBodyValidation = async (event: APIGatewayProxyEvent) => {
     const body = getRequestBody(event);
@@ -20,4 +20,20 @@ export const createUserBodyValidation = async (event: APIGatewayProxyEvent) => {
         }),
       };
     }
+}
+
+export const createLoginBodyValidation = async (event: APIGatewayProxyEvent) => {
+  const body = getRequestBody(event);
+  const login = new LoginDto();
+  login.email = body.email;
+  login.password = body.password;
+  const errors = await validate(login);
+  if (errors.length > 0) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({
+        message: 'Invalid request, missing body parameters',
+      }),
+    };
+  }
 }
