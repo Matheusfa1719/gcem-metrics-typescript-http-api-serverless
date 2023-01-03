@@ -10,7 +10,6 @@
       "sourceMap": true,
       "outDir": "build",
       "rootDir": "src",
-      "strictPropertyInitialization": true,
       "noImplicitAny": false,
       "strictPropertyInitialization": false
     },
