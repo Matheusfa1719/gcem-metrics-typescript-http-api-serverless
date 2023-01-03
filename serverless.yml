@@ -30,19 +30,20 @@ provider:
             - Fn::GetAtt: [ UsersTable, Arn ]
   environment:
     USERS_TABLE: ${self:custom.userTableName}
+    JWT_SECRET: 
 
 functions:
-  hello:
-    handler: handler.hello
-    events:
-      - httpApi:
-          path: /
-          method: get
   createUser:
-    handler: src/handlers/createUser.handler
+    handler: src/handlers/user/createUser.handler
     events:
       - httpApi:
           path: /users
+          method: post
+  login:
+    handler: src/handlers/auth/login.handler
+    events:
+      - httpApi:
+          path: /auth/login
           method: post
 
 resources:
@@ -71,3 +72,4 @@ resources:
 plugins:
   - serverless-plugin-typescript
   - serverless-offline
+  - serverless-aws-documentation

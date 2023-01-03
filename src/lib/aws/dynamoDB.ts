@@ -18,7 +18,7 @@ export const putItem = async (tableName: string, item: AWS.DynamoDB.AttributeMap
   }
 }
 
-export const findUserByEmail = async (tableName: string, email: string) => {
+export const findUserByEmailBool = async (tableName: string, email: string) => {
   const params: AWS.DynamoDB.Types.QueryInput = {
     TableName: tableName,
     IndexName: 'email-index',
@@ -29,4 +29,17 @@ export const findUserByEmail = async (tableName: string, email: string) => {
   }
   const { Items } = await dynamoDB.query(params).promise();
   return Items && Items.length > 0 ? true : false
+}
+
+export const findUserByEmail = async (tableName: string, email: string) => {
+  const params: AWS.DynamoDB.Types.QueryInput = {
+    TableName: tableName,
+    IndexName: 'email-index',
+    KeyConditionExpression: 'email = :val',
+    ExpressionAttributeValues: {
+      ':val': { S: email }
+    }
+  }
+  const { Items } = await dynamoDB.query(params).promise();
+  return Items && Items.length > 0 ? Items[0] : null
 }

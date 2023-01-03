@@ -8,3 +8,10 @@ export function defaultErrorResponse(error: any): APIGatewayProxyResult {
     }),
   };
 }
+
+export function createNewError(statusCode: number, message: string) {
+  return {
+    statusCode,
+    message,
+  };
+}

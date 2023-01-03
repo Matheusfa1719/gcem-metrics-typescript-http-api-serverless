@@ -6,3 +6,9 @@ jspm_packages
 .serverless
 
 .biuld
+biuld
+
+.env
+serverless.yml
+
+.biuld
